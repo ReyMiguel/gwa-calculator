@@ -1,0 +1,19 @@
+{
+  "name": "bulsu-gwa-calculator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "BulSU GWA Calculator & Academic Honors Eligibility Checker (static site, no backend)",
+  "scripts": {
+    "lint:html": "html-validate index.html",
+    "check:js": "node scripts/check-js.mjs",
+    "test": "node tests/smoke.mjs",
+    "check": "npm run lint:html && npm run check:js && npm run test",
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "html-validate": "^9.0.0",
+    "playwright": "^1.48.0"
+  },
+  "engines": { "node": ">=20" }
+}

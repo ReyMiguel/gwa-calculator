@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
+      - name: Install Chromium for tests
+        run: npx playwright install --with-deps chromium
+      - name: Lint HTML
+        run: npm run lint:html
+      - name: Check inline JavaScript syntax
+        run: npm run check:js
+      - name: Browser smoke tests
+        run: npm test
